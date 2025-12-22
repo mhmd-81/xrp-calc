@@ -104,3 +104,4 @@ xdg==5
 xkit==0.0.0
 zipfile36==0.1.3
 zipp==1.0.0
+streamlit-autorefresh
