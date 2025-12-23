@@ -38,9 +38,9 @@ from binance.client import Client
 #     }
 # )
 
-
+client = Client()
 def fetcher(coin):
-    data = Client.get_symbol_ticker(symbol=coin)
+    data = client.get_symbol_ticker(symbol=coin)
     return float(data['price'])
 
 # Test it
