@@ -1,16 +1,19 @@
 import streamlit as st
+import requests
 from binance.client import Client
 
 _client = Client()
 
 @st.cache_data(ttl=2)
-def fetcher(coin):
-    data = _client.get_symbol_ticker(symbol=coin)
-    return float(data["price"])
-
-if __name__ == "__main__":
+def fetcher(symbol):
     try:
-        price = fetcher("XRPUSDT")
-        print("XRP price:", price)
-    except Exception as e:
-        print("Error:", e)
+        data = _client.get_symbol_ticker(symbol=symbol)
+        return float(data["price"])
+    except Exception:
+        r = requests.get(
+            "https://api.coingecko.com/api/v3/simple/price",
+            params={"ids": "ripple", "vs_currencies": "usd"},
+            timeout=10,
+        )
+        r.raise_for_status()
+        return float(r.json()["ripple"]["usd"])
